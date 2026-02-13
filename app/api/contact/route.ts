@@ -22,10 +22,13 @@ function foldVCardLine(line: string) {
 
   const result: string[] = [];
   let i = 0;
+  let first = true;
   while (i < line.length) {
-    const chunk = line.slice(i, i + maxLen);
-    result.push(i === 0 ? chunk : ` ${chunk}`);
-    i += maxLen;
+    const chunkSize = first ? maxLen : maxLen - 1;
+    const chunk = line.slice(i, i + chunkSize);
+    result.push(first ? chunk : ` ${chunk}`);
+    i += chunkSize;
+    first = false;
   }
   return result;
 }
@@ -68,7 +71,7 @@ export async function GET(request: NextRequest) {
   try {
     const imagePath = path.join(process.cwd(), "public", "charizard.png");
     const imageBase64 = (await readFile(imagePath)).toString("base64");
-    lines.push(...foldVCardLine(`PHOTO;ENCODING=b;TYPE=PNG:${imageBase64}`));
+    lines.push(...foldVCardLine(`PHOTO;ENCODING=BASE64;TYPE=PNG:${imageBase64}`));
   } catch {
     // If image is unavailable, vCard is still valid without PHOTO.
   }
