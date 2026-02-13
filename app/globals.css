@@ -1,278 +1,255 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
-  --primary: #0a0a0f;
-  --secondary: #1a0f0a;
-  --tertiary: #2e1a16;
-  --neon: #ff4500;
-  --neon-bright: #ff6a00;
-  --neon-dark: #cc3300;
-  --neon-glow: rgba(255, 69, 0, 0.3);
-  --neon-pulse: rgba(255, 106, 0, 0.6);
-  --charizard: #ff4500;
+  color-scheme: dark;
+  --gunmetal-0: #161a1d;
+  --gunmetal-1: #20262b;
+  --gunmetal-2: #2c353c;
+  --stroke-soft: rgba(77, 255, 139, 0.28);
+  --stroke-strong: rgba(77, 255, 139, 0.52);
+  --accent: #4dff8b;
+  --accent-soft: rgba(77, 255, 139, 0.25);
+  --accent-glow: rgba(77, 255, 139, 0.45);
+  --text-1: #f4f7fa;
+  --text-2: #c7d0d7;
 }
 
 * {
   box-sizing: border-box;
-  color: inherit;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  background: radial-gradient(ellipse at center, #0a0a0f 0%, #1a0f0a 70%, #000 100%);
+  color: var(--text-1);
+  background:
+    radial-gradient(circle at 18% 5%, rgba(77, 255, 139, 0.09), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(77, 255, 139, 0.06), transparent 35%),
+    linear-gradient(160deg, #0f1214 0%, #14181b 45%, #1a2024 100%);
   min-height: 100vh;
-  overflow-x: hidden;
-  perspective: 2000px;
-  transform-style: preserve-3d;
-  color: #ffffff;
 }
 
-/* Charizard Dimensional Matrix */
-.dimensional-matrix {
+.business-shell {
+  position: relative;
+  min-height: 100vh;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.noise-layer {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  background: 
-    radial-gradient(ellipse 80% 50% at 50% 120%, rgba(255, 69, 0, 0.12), transparent),
-    radial-gradient(ellipse 60% 80% at 30% -20%, rgba(255, 106, 0, 0.08), transparent),
-    linear-gradient(135deg, #0a0a0f 0%, #1a0f0a 50%, #2e1a16 100%);
-}
-
-.dimensional-matrix::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(255, 69, 0, 0.15) 1px, transparent 1px),
-    radial-gradient(circle at 80% 70%, rgba(255, 106, 0, 0.12) 1px, transparent 1px),
-    radial-gradient(circle at 40% 90%, rgba(204, 51, 0, 0.1) 1px, transparent 1px);
-  background-size: 80px 80px, 120px 120px, 160px 160px;
-}
-
-.dimensional-matrix::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(45deg, transparent 48%, rgba(255, 69, 0, 0.03) 50%, transparent 52%),
-    linear-gradient(-45deg, transparent 48%, rgba(255, 106, 0, 0.02) 50%, transparent 52%);
-  background-size: 40px 40px;
-}
-
-/* Charizard Typography */
-.holographic-card {
-  background: 
-    linear-gradient(145deg, 
-      rgba(0, 0, 0, 0.6) 0%, 
-      rgba(0, 0, 0, 0.4) 100%);
-  backdrop-filter: blur(150px) saturate(120%);
-  -webkit-backdrop-filter: blur(150px) saturate(120%);
-  border: 1px solid rgba(255, 69, 0, 0.4);
-  border-radius: 28px;
-  box-shadow: 
-    0 0 80px var(--neon-glow),
-    0 0 160px rgba(255, 69, 0, 0.4),
-    0 25px 50px rgba(0, 0, 0, 0.6),
-    inset 0 2px 0 rgba(255, 106, 0, 0.3),
-    inset 0 -2px 0 var(--neon-glow);
-  position: relative;
-  overflow: visible;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  transform-style: preserve-3d;
-}
-
-.holographic-card::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  border-radius: 24px;
-  background: linear-gradient(45deg, 
-    transparent,
-    rgba(255, 69, 0, 0.3),
-    transparent,
-    rgba(255, 69, 0, 0.3),
-    transparent);
-  z-index: -1;
-}
-
-.holographic-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.2), 
-    transparent);
-  border-radius: 24px;
-  transition: left 0.6s ease;
+  inset: 0;
   pointer-events: none;
+  opacity: 0.24;
+  z-index: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.17) 0.65px, transparent 0.65px);
+  background-size: 3px 3px;
+  mix-blend-mode: overlay;
 }
 
-.holographic-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 0 30px rgba(255, 69, 0, 0.2),
-    0 25px 50px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 69, 0, 0.6);
+.business-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 460px);
+  border-radius: 22px;
+  border: 1px solid var(--stroke-soft);
+  background: linear-gradient(165deg, rgba(44, 53, 60, 0.98), rgba(22, 26, 29, 0.95));
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.52),
+    0 0 28px var(--accent-soft),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.35),
+    0 0 0 1px var(--accent-soft);
+  padding: 18px;
 }
 
-.holographic-card:hover::after {
-  left: 100%;
+.card-header {
+  margin-bottom: 18px;
 }
 
-/* Charizard Typography */
-.dimensional-text {
-  color: #ffffff;
-  text-shadow: 
-    0 0 1px rgba(255, 69, 0, 0.8),
-    0 1px 3px rgba(0, 0, 0, 0.8);
-  font-weight: 900;
+.header-kicker {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 8px;
 }
 
-/* Charizard Quantum Button */
-.quantum-button {
-  background: linear-gradient(135deg, 
-    rgba(20, 20, 30, 0.95) 0%, 
-    rgba(30, 30, 40, 0.98) 100%);
-  border: 2px solid rgba(255, 69, 0, 0.8);
-  border-radius: 16px;
-  color: #ffffff;
+.header-title {
+  font-size: 20px;
+  line-height: 1.35;
+  margin: 0;
   font-weight: 800;
-  font-size: 18px;
-  padding: 20px 40px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 
-    0 0 15px rgba(255, 69, 0, 0.3),
-    0 8px 20px rgba(0, 0, 0, 0.5);
-  min-height: 70px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 12px rgba(77, 255, 139, 0.18);
 }
 
-.quantum-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.1), 
-    transparent);
-  transition: left 0.5s ease;
-}
-
-.quantum-button::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
+.card-body {
+  padding: 14px;
   border-radius: 16px;
-  background: linear-gradient(45deg,
-    rgba(255, 69, 0, 0.2),
-    transparent,
-    rgba(255, 69, 0, 0.2));
-  z-index: -1;
+  border: 1px solid var(--stroke-soft);
+  background: linear-gradient(180deg, rgba(23, 28, 32, 0.84), rgba(17, 20, 24, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 24px rgba(0, 0, 0, 0.35),
+    0 0 18px rgba(77, 255, 139, 0.16);
 }
 
-.quantum-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 0 25px rgba(255, 69, 0, 0.5),
-    0 12px 25px rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 69, 0, 1);
-}
-
-.quantum-button:hover::before {
-  left: 100%;
-}
-
-@keyframes flamePulse {
-  0%, 100% { 
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1.03);
-  }
-}
-
-/* Charizard Detail Rows */
-.dimensional-row {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 69, 0, 0.2);
-  border-radius: 12px;
-  padding: 18px 20px;
-  margin: 8px 0;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.dimensional-row::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+.save-button {
   width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 69, 0, 0.05), 
-    transparent);
-  transition: left 0.4s ease;
+  border: 1px solid var(--stroke-strong);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, #343f47, #283138);
+  color: var(--text-1);
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow:
+    0 7px 0 #12181c,
+    0 12px 18px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 16px rgba(77, 255, 139, 0.2);
+  transform: translateY(0);
+  animation: jiggle 2.8s ease-in-out infinite;
 }
 
-.dimensional-row:hover {
-  transform: translateX(4px);
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 69, 0, 0.4);
-  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.1);
+.save-button:hover {
+  border-color: rgba(77, 255, 139, 0.65);
+  box-shadow:
+    0 7px 0 #12181c,
+    0 12px 18px rgba(0, 0, 0, 0.28),
+    0 0 24px rgba(77, 255, 139, 0.35);
 }
 
-.dimensional-row:hover::before {
-  left: 100%;
+.save-button:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 3px 0 #12181c,
+    0 8px 14px rgba(0, 0, 0, 0.35);
 }
 
-/* Responsive Charizard */
-@media (max-width: 640px) {
-  .holographic-card {
-    margin: 16px;
-    border-radius: 20px;
-    padding: 8px;
+.save-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.save-button.is-saved {
+  animation: none;
+  border-color: rgba(77, 255, 139, 0.7);
+  color: #e6fff0;
+}
+
+@keyframes jiggle {
+  0%, 88%, 100% { transform: rotate(0deg); }
+  90% { transform: rotate(1.4deg); }
+  92% { transform: rotate(-1.4deg); }
+  94% { transform: rotate(0.9deg); }
+  96% { transform: rotate(-0.8deg); }
+  98% { transform: rotate(0.4deg); }
+}
+
+.support-text {
+  margin: 12px 4px 0;
+  font-size: 12px;
+  color: #d7ffe8;
+}
+
+.sms-form {
+  margin-top: 16px;
+  border: 1px solid var(--stroke-soft);
+  border-radius: 16px;
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(20, 25, 29, 0.92), rgba(18, 22, 27, 0.94));
+  box-shadow: 0 0 18px rgba(77, 255, 139, 0.12);
+}
+
+.sms-form-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #dcffec;
+}
+
+.sms-form-copy {
+  margin: 6px 0 12px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.input-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.text-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--stroke-soft);
+  background: rgba(77, 255, 139, 0.05);
+  color: var(--text-1);
+  padding: 10px 12px;
+  outline: none;
+}
+
+.text-input:focus {
+  border-color: rgba(77, 255, 139, 0.75);
+  box-shadow: 0 0 0 2px rgba(77, 255, 139, 0.2);
+}
+
+.sms-actions {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.send-button,
+.ghost-button {
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.send-button {
+  border: 1px solid rgba(77, 255, 139, 0.65);
+  color: #04130a;
+  background: linear-gradient(180deg, #67ffa0, #4dff8b);
+}
+
+.send-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ghost-button {
+  border: 1px solid var(--stroke-strong);
+  color: var(--text-1);
+  background: linear-gradient(180deg, #333d45, #283038);
+  box-shadow: 0 0 12px rgba(77, 255, 139, 0.14);
+}
+
+.card-footer {
+  margin-top: 16px;
+  text-align: center;
+  color: #d7ffe8;
+  font-size: 13px;
+  text-shadow: 0 0 8px rgba(77, 255, 139, 0.2);
+}
+
+.footer-italic {
+  margin-top: 4px;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  .business-card {
+    width: 560px;
+    padding: 20px;
   }
-  
-  .quantum-button {
-    padding: 24px 40px;
-    font-size: 18px;
-    min-height: 80px;
-  }
-  
-  .dimensional-row {
-    padding: 20px 16px;
+
+  .header-title {
+    font-size: 24px;
   }
 }
