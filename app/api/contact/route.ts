@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 function escapeVCardValue(value: string) {
   return value
@@ -10,6 +12,22 @@ function escapeVCardValue(value: string) {
 
 function cleanFilename(value: string) {
   return value.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 32);
+}
+
+function foldVCardLine(line: string) {
+  const maxLen = 75;
+  if (line.length <= maxLen) {
+    return [line];
+  }
+
+  const result: string[] = [];
+  let i = 0;
+  while (i < line.length) {
+    const chunk = line.slice(i, i + maxLen);
+    result.push(i === 0 ? chunk : ` ${chunk}`);
+    i += maxLen;
+  }
+  return result;
 }
 
 export async function GET(request: NextRequest) {
@@ -45,6 +63,14 @@ export async function GET(request: NextRequest) {
   }
   if (email) {
     lines.push(`EMAIL;TYPE=INTERNET:${escapeVCardValue(email)}`);
+  }
+
+  try {
+    const imagePath = path.join(process.cwd(), "public", "charizard.png");
+    const imageBase64 = (await readFile(imagePath)).toString("base64");
+    lines.push(...foldVCardLine(`PHOTO;ENCODING=b;TYPE=PNG:${imageBase64}`));
+  } catch {
+    // If image is unavailable, vCard is still valid without PHOTO.
   }
 
   lines.push("END:VCARD");

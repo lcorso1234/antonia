@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, useMemo, useState } from "react";
 
 const CARD_FIRST_NAME = "Antonia";
@@ -97,6 +98,16 @@ export default function Home() {
       <section className="business-card">
         <header className="card-header">
           <p className="header-kicker">Charizard Command Card</p>
+          <div className="profile-image-wrap">
+            <Image
+              src="/charizard.png"
+              alt="Charizard profile"
+              width={108}
+              height={108}
+              className="profile-image"
+              priority
+            />
+          </div>
           <h1 className="header-title">
             First Name: {CARD_FIRST_NAME} Last Name: {CARD_LAST_NAME} Phone number: {CARD_PHONE_DISPLAY}
           </h1>
