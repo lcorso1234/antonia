@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const PHONE = "+17082037932";
+const DEFAULT_ORG = "Hawk Media";
+const DEFAULT_TITLE = "Marketing with Energy Mastery";
+const DEFAULT_NOTE = "Making relationships built to last, the Charizard Way.";
 
 function getSmsLink(phone: string, body: string) {
   const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
@@ -11,10 +14,30 @@ function getSmsLink(phone: string, body: string) {
   return isIOS ? `sms:${phone}&body=${encodedBody}` : `sms:${phone}?body=${encodedBody}`;
 }
 
-async function triggerVCardDownload() {
+function buildContactUrl(params: {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+}) {
+  const query = new URLSearchParams({
+    firstName: params.firstName.trim(),
+    lastName: params.lastName.trim(),
+    phone: params.phone.trim(),
+    email: params.email.trim(),
+    org: DEFAULT_ORG,
+    title: DEFAULT_TITLE,
+    note: DEFAULT_NOTE,
+    photoUrl: `${window.location.origin}/charizard.png`,
+  });
+
+  return `${window.location.origin}/api/contact?${query.toString()}`;
+}
+
+async function triggerVCardDownload(contactUrl: string) {
   const link = document.createElement("a");
-  link.href = "/api/contact";
-  link.download = "Antonia_Gianakas.vcf";
+  link.href = contactUrl;
+  link.download = "contact.vcf";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -23,24 +46,39 @@ async function triggerVCardDownload() {
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [dimensionalState, setDimensionalState] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDimensionalState(prev => (prev + 1) % 360);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
 
   const onSaveAndText = async () => {
     setIsLoading(true);
+    const safeFirst = firstName.trim() || "Friend";
+    const safeLast = lastName.trim();
+    const safePhone = phone.trim() || "";
+    const safeEmail = email.trim() || "";
+    const contactUrl = buildContactUrl({
+      firstName: safeFirst,
+      lastName: safeLast,
+      phone: safePhone,
+      email: safeEmail,
+    });
+
     try {
-      await triggerVCardDownload();
+      await triggerVCardDownload(contactUrl);
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 4000);
     } catch {}
     
-    const smsBody = "� YOOO Antonia! That Charizard business card is absolutely INSANE! The neon orange is revolutionary AF. Let's connect and make some fire moves together! 🚀";
+    const smsBody = [
+      `Hey Antonia, this is ${safeFirst}${safeLast ? ` ${safeLast}` : ""}.`,
+      safePhone ? `Phone: ${safePhone}` : "",
+      safeEmail ? `Email: ${safeEmail}` : "",
+      `Save my contact card: ${contactUrl}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
     const sms = getSmsLink(PHONE, smsBody);
     
     setTimeout(() => {
@@ -78,6 +116,41 @@ export default function Home() {
 
             {/* Contact Matrix */}
             <div className="space-y-4 mb-8">
+              <div className="dimensional-row">
+                <div className="space-y-3">
+                  <p className="text-white font-semibold text-sm uppercase tracking-wide">
+                    Your Contact (Shared in SMS)
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="First name"
+                      className="w-full rounded-lg bg-black/25 border border-white/25 px-3 py-2 text-white placeholder:text-white/60 focus:outline-none focus:border-orange-400"
+                    />
+                    <input
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Last name"
+                      className="w-full rounded-lg bg-black/25 border border-white/25 px-3 py-2 text-white placeholder:text-white/60 focus:outline-none focus:border-orange-400"
+                    />
+                  </div>
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Your phone"
+                    className="w-full rounded-lg bg-black/25 border border-white/25 px-3 py-2 text-white placeholder:text-white/60 focus:outline-none focus:border-orange-400"
+                  />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Your email"
+                    className="w-full rounded-lg bg-black/25 border border-white/25 px-3 py-2 text-white placeholder:text-white/60 focus:outline-none focus:border-orange-400"
+                  />
+                </div>
+              </div>
+
               <div className="dimensional-row">
                 <div className="flex justify-between items-center">
                   <span className="text-white font-semibold text-sm uppercase tracking-wide flex items-center">
