@@ -4,7 +4,6 @@ import { FormEvent, useMemo, useState } from "react";
 
 const CARD_FIRST_NAME = "Antonia";
 const CARD_LAST_NAME = "Gianakas";
-const CARD_PHONE_DISPLAY = "708.203.7932";
 const CARD_PHONE_RAW = "+17082037932";
 const CARD_ORG = "Charizard Network";
 const CARD_TITLE = "Pokemon Leader";
@@ -97,9 +96,7 @@ export default function Home() {
       <section className="business-card">
         <header className="card-header">
           <p className="header-kicker">Charizard Command Card</p>
-          <h1 className="header-title">
-            First Name: {CARD_FIRST_NAME} Last Name: {CARD_LAST_NAME} Phone number: {CARD_PHONE_DISPLAY}
-          </h1>
+          <h1 className="header-title">Antonia Gianakas</h1>
         </header>
 
         <div className="card-body">
